@@ -1,50 +1,107 @@
 // src/components/Dashboard.jsx
-import React, { useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import DataForm from './DataForm';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Navbar from './Navbar';
+import VoteForm from './VoteForm';
+import { Pie, Bar, Line } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement);
 
 const Dashboard = () => {
-  const [dataPoints, setDataPoints] = useState([]);
+  const [user, setUser] = useState(null);
+  const [result, setResult] = useState(null);
+  const [voteStats, setVoteStats] = useState([]);
+  const [error, setError] = useState('');
 
-  const handleDataSubmit = (value) => {
-    setDataPoints([...dataPoints, Number(value)]);
+  const fetchResult = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/result');
+      setResult(response.data);
+    } catch (error) {
+      console.error('Error fetching result:', error);
+    }
   };
 
-  const chartData = {
-    labels: dataPoints.map((_, index) => `Data Point ${index + 1}`),
+  const fetchVoteStats = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:5000/vote-stats');
+      setVoteStats(response.data);
+    } catch (error) {
+      console.error('Error fetching vote stats:', error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://127.0.0.1:5000/logout');
+      setUser(null);
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
+  const handleLogin = (userData) => {
+    setUser(userData); // Set the user state after login
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchResult();
+      fetchVoteStats();
+      const interval = setInterval(() => {
+        fetchResult();
+        fetchVoteStats();
+      }, 5000); // Refresh every 5 seconds
+      return () => clearInterval(interval);
+    }
+  }, [user]);
+
+  const pieData = {
+    labels: ['Yes', 'No'],
     datasets: [
       {
-        label: 'Data Values',
-        data: dataPoints,
-        backgroundColor: 'rgba(59, 130, 246, 0.6)',
+        data: [result?.total_yes || 0, result?.total_no || 0],
+        backgroundColor: ['#4CAF50', '#F44336'],
       },
     ],
   };
 
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
+  const barData = {
+    labels: voteStats.map(stat => stat.time),
+    datasets: [
+      {
+        label: 'Votes Over Time',
+        data: voteStats.map(stat => stat.count),
+        backgroundColor: '#2196F3',
       },
-      title: {
-        display: true,
-        text: 'Privacy-Preserving Data Aggregation',
-      },
-    },
+    ],
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">Dashboard</h2>
-        <DataForm onSubmit={handleDataSubmit} />
-        <div className="mt-8 bg-white p-6 rounded-lg shadow-lg">
-          <Bar data={chartData} options={chartOptions} />
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      <Navbar user={user} onLogin={handleLogin} onLogout={handleLogout} />
+      <div className="max-w-6xl mx-auto p-6">
+        {!user ? (
+          <div className="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto animate-fade-in">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Please login to vote</h2>
+          </div>
+        ) : (
+          <>
+            <VoteForm user={user} onVote={fetchResult} setError={setError} />
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Vote Distribution</h2>
+                <Pie data={pieData} />
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Votes Over Time</h2>
+                <Line data={barData} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
