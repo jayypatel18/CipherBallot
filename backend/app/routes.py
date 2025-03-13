@@ -59,23 +59,18 @@ def login():
 
     return jsonify({'message': 'Login successful', 'user_id': user['id'], 'username': user['username']})
 
+# app/routes.py
 @bp.route('/vote', methods=['POST'])
 def vote():
     data = request.json
     user_id = data.get('user_id')
-    vote = data.get('vote')  # "Yes" or "No"
+    option = data.get('option')  # Selected option (e.g., "Option1", "Option2")
 
-    if not user_id or not vote:
-        return jsonify({'error': 'User ID and vote are required'}), 400
+    if not user_id or not option:
+        return jsonify({'error': 'User ID and option are required'}), 400
 
     conn = get_db()
     cursor = conn.cursor()
-
-    # Check if the user exists
-    user = cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
-    if not user:
-        conn.close()
-        return jsonify({'error': 'User does not exist'}), 400
 
     # Check if the user has already voted
     existing_vote = cursor.execute('SELECT * FROM votes WHERE user_id = ?', (user_id,)).fetchone()
@@ -84,40 +79,44 @@ def vote():
         return jsonify({'error': 'You have already voted'}), 400
 
     # Insert the vote with a timestamp
-    cursor.execute('INSERT INTO votes (user_id, vote, timestamp) VALUES (?, ?, ?)',
-                   (user_id, vote, datetime.now()))
+    cursor.execute('INSERT INTO votes (user_id, option, timestamp) VALUES (?, ?, ?)',
+                   (user_id, option, datetime.now()))
     conn.commit()
     conn.close()
 
     return jsonify({'message': 'Vote submitted successfully'})
 
+# app/routes.py
 @bp.route('/result', methods=['GET'])
 def result():
     conn = get_db()
     cursor = conn.cursor()
-    votes = cursor.execute('SELECT vote FROM votes').fetchall()
+
+    # Fetch all votes
+    votes = cursor.execute('SELECT option FROM votes').fetchall()
     conn.close()
 
     if not votes:
         return jsonify({'error': 'No votes submitted'}), 400
 
     try:
-        # Use SMPC to aggregate votes
+        # Use SMPC to aggregate votes for each option
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        total_yes = loop.run_until_complete(aggregate_votes([vote['vote'] for vote in votes]))
+        aggregated = loop.run_until_complete(aggregate_votes([vote['option'] for vote in votes]))
         loop.close()
 
+        # Calculate percentages
         total_votes = len(votes)
-        total_no = total_votes - total_yes
+        results = {
+            option: {
+                'count': count,
+                'percentage': (count / total_votes) * 100,
+            }
+            for option, count in aggregated.items()
+        }
 
-        return jsonify({
-            'total_yes': total_yes,
-            'total_no': total_no,
-            'percentage_yes': (total_yes / total_votes) * 100,
-            'percentage_no': (total_no / total_votes) * 100,
-            'total_votes': total_votes,
-        })
+        return jsonify(results)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

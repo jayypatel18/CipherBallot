@@ -14,13 +14,13 @@ def init_db():
         )
     ''')
 
-    # Create votes table with timestamp
+    # Create votes table with timestamp and unique constraint on user_id
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS votes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            vote TEXT NOT NULL,
-            timestamp DATETIME NOT NULL,  -- Add timestamp column
+            user_id INTEGER NOT NULL UNIQUE,  -- Enforce one vote per user
+            option TEXT NOT NULL,  -- Store the selected option
+            timestamp DATETIME NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
