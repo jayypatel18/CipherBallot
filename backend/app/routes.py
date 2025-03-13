@@ -102,6 +102,7 @@ def result():
         return jsonify({'error': 'No votes submitted'}), 400
 
     try:
+        # Use SMPC to aggregate votes
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         total_yes = loop.run_until_complete(aggregate_votes([vote['vote'] for vote in votes]))
