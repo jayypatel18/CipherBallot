@@ -14,12 +14,13 @@ def init_db():
         )
     ''')
 
-    # Create votes table
+    # Create votes table with timestamp
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS votes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             vote TEXT NOT NULL,
+            timestamp DATETIME NOT NULL,  -- Add timestamp column
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')

@@ -59,7 +59,6 @@ def login():
 
     return jsonify({'message': 'Login successful', 'user_id': user['id'], 'username': user['username']})
 
-# app/routes.py
 @bp.route('/vote', methods=['POST'])
 def vote():
     data = request.json
@@ -71,6 +70,12 @@ def vote():
 
     conn = get_db()
     cursor = conn.cursor()
+
+    # Check if the user exists
+    user = cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+    if not user:
+        conn.close()
+        return jsonify({'error': 'User does not exist'}), 400
 
     # Check if the user has already voted
     existing_vote = cursor.execute('SELECT * FROM votes WHERE user_id = ?', (user_id,)).fetchone()

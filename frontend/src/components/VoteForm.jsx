@@ -11,13 +11,13 @@ const VoteForm = ({ user, onVote, setError }) => {
     setSubmissionError(''); // Clear any previous error
     try {
       const response = await axios.post('http://127.0.0.1:5000/vote', {
-        user_id: user.user_id,
+        user_id: user.user_id, // Ensure this matches the backend expectation
         vote,
       });
       onVote(); // Refresh results after voting
       setVote('');
     } catch (error) {
-      setSubmissionError(error.response?.data?.error || 'You have already voted');
+      setSubmissionError(error.response?.data?.error || 'An error occurred');
     }
   };
 
