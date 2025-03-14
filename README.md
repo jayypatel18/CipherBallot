@@ -55,8 +55,7 @@ smpc-privacy-preserving-data/
 - React 18.2.0
 - Framer Motion (animations)
 - React Icons
-- SweetAlert2 (notifications)
-- CSS3 with custom styling
+- TailwindCSS
 
 ### Backend (Server) 
 - Python 3.9+

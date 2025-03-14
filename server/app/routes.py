@@ -1,4 +1,3 @@
-# app/routes.py
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
@@ -8,7 +7,6 @@ from datetime import datetime
 
 bp = Blueprint('routes', __name__)
 
-# Database setup
 def get_db():
     conn = sqlite3.connect('voting.db')
     conn.row_factory = sqlite3.Row
@@ -32,7 +30,6 @@ def register():
         conn.close()
         return jsonify({'error': 'Username already exists'}), 400
 
-    # Insert the new user
     cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)',
                    (username, generate_password_hash(password)))
     conn.commit()
@@ -59,7 +56,6 @@ def login():
 
     return jsonify({'message': 'Login successful', 'user_id': user['id'], 'username': user['username']})
 
-# app/routes.py
 @bp.route('/vote', methods=['POST'])
 def vote():
     data = request.json
@@ -86,7 +82,6 @@ def vote():
 
     return jsonify({'message': 'Vote submitted successfully'})
 
-# app/routes.py
 @bp.route('/result', methods=['GET'])
 def result():
     conn = get_db()

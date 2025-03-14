@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
+import Footer from './Footer';
 import VoteForm from './VoteForm';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from 'chart.js';
@@ -111,9 +112,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex flex-col">
       <Navbar user={user} onLogin={handleLogin} onLogout={handleLogout} />
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="flex-1 w-full max-w-6xl mx-auto p-6">
         {!user ? (
           <div className="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto animate-fade-in">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Please login to vote</h2>
@@ -185,6 +186,7 @@ const Dashboard = () => {
           </>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

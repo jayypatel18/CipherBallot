@@ -15,7 +15,7 @@ const Navbar = ({ user, onLogin, onLogout }) => {
 
   return (
     <>
-      <nav className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 shadow-lg">
+      <nav className="bg-gradient-to-r from-blue-600 to-fuchsia-500 p-4 shadow-lg">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-white text-2xl font-bold">Voting System</h1>
           <div className="flex items-center space-x-4">

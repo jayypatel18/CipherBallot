@@ -1,4 +1,3 @@
-# app/smpc.py
 from mpyc.runtime import mpc
 
 async def aggregate_votes(votes):
