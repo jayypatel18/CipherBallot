@@ -10,7 +10,7 @@ async def aggregate_votes(votes):
     secnum = mpc.SecInt()  # Secure integer type
 
     # Convert votes to secure integers for each option
-    options = ['Option1', 'Option2', 'Option3']  # List of possible options
+    options = ['Narendra Modi', 'Rahul Gandhi', 'Mukesh Patel']  # List of possible options
     secure_votes = {option: [] for option in options}
 
     for vote in votes:

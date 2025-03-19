@@ -35,9 +35,9 @@ const VoteForm = ({ user, onVote, setError }) => {
           required
         >
           <option value="" disabled>Select an option</option>
-          <option value="Option1">Option 1</option>
-          <option value="Option2">Option 2</option>
-          <option value="Option3">Option 3</option>
+          <option value="Narendra Modi">Narendra Modi</option>
+          <option value="Rahul Gandhi">Rahul Gandhi</option>
+          <option value="Mukesh Patel">Mukesh Patel</option>
         </select>
         <button
           type="submit"
