@@ -8,7 +8,6 @@ import { Pie, Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // For displaying labels on charts
 
-// Register Chart.js components
 ChartJS.register(
   ArcElement,
   Tooltip,
