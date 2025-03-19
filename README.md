@@ -1,11 +1,11 @@
-# SMPC Privacy-Preserving Data Platform
+# CipherBallot using SMPC for Privacy-Preserving Data Platform
 
 ![SMPC](https://img.shields.io/badge/SMPC-1.0.0-blue)
 ![React](https://img.shields.io/badge/React-18.2.0-61DAFB)
 ![Flask](https://img.shields.io/badge/Flask-2.3.2-000000)
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB)
 
-SMPC Privacy-Preserving Data Platform is a comprehensive solution for secure multi-party computation (SMPC) to aggregate and analyze data without compromising privacy. The application combines a modern React frontend with a powerful Python Flask backend to provide an intuitive and effective SMPC service.
+CipherBallot using SMPC for Privacy-Preserving Data Platform is a comprehensive solution for secure multi-party computation (SMPC) to aggregate and analyze data without compromising privacy. The application combines a modern React frontend with a powerful Python Flask backend to provide an intuitive and effective SMPC service.
 
 <!--![SMPC Screenshot](assets/SMPC_1.png)
 ![SMPC Screenshot](assets/SMPC_2.png)
@@ -14,7 +14,7 @@ SMPC Privacy-Preserving Data Platform is a comprehensive solution for secure mul
 
 ## 🔍 Overview
 
-SMPC Privacy-Preserving Data Platform helps organizations securely aggregate and analyze data from multiple parties without revealing individual data points. The platform uses secure multi-party computation techniques to ensure data privacy.
+CipherBallot using SMPC for Privacy-Preserving Data Platform helps organizations securely aggregate and analyze data from multiple parties without revealing individual data points. The platform uses secure multi-party computation techniques to ensure data privacy.
 
 ### Project Architecture
 
