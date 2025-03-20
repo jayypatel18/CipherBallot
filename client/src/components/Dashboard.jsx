@@ -7,7 +7,7 @@ import VoteForm from './VoteForm';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // For displaying labels on charts
-
+const apiUrl = import.meta.env.VITE_API_URL;
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -29,7 +29,7 @@ const Dashboard = () => {
   // Fetch aggregated results
   const fetchResult = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/result');
+      const response = await axios.get(`http://127.0.0.1:5001/result`);
       setResult(response.data);
     } catch (error) {
       console.error('Error fetching result:', error);
@@ -39,7 +39,7 @@ const Dashboard = () => {
   // Fetch vote statistics over time
   const fetchVoteStats = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/vote-stats');
+      const response = await axios.get(`http://127.0.0.1:5001/vote-stats`);
       setVoteStats(response.data);
     } catch (error) {
       console.error('Error fetching vote stats:', error);
@@ -49,7 +49,7 @@ const Dashboard = () => {
   // Handle user logout
   const handleLogout = async () => {
     try {
-      await axios.post('http://127.0.0.1:5000/logout');
+      await axios.post(`http://127.0.0.1:5001/logout`);
       setUser(null);
     } catch (error) {
       console.error('Error logging out:', error);

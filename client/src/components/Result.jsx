@@ -1,13 +1,14 @@
 // src/components/Result.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Result = () => {
   const [result, setResult] = useState(null);
 
   const fetchResult = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/result');
+      const response = await axios.get(`http://127.0.0.1:5001/result`);
       setResult(response.data);
     } catch (error) {
       console.error('Error fetching result:', error);
