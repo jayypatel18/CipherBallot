@@ -1,0 +1,8 @@
+flask==2.3.2
+flask-cors==4.0.0
+mpyc==0.9.4
+gunicorn==21.2.0
+werkzeug==2.3.7
+sqlite3==3.35.0
+asyncio==3.4.3
+python-dotenv==1.0.0
