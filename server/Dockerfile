@@ -15,10 +15,10 @@ COPY . .
 EXPOSE 5001
 
 # Set environment variables
-ENV FLASK_APP=app.py  
-# Ensure FLASK_APP points to the correct file
-ENV FLASK_RUN_HOST=127.0.0.1
+ENV FLASK_APP=app.py
+# Change this to bind to all interfaces
+ENV FLASK_RUN_HOST=0.0.0.0
 ENV PYTHONPATH=/app
 
-# Run the Flask app using Gunicorn
-CMD ["gunicorn", "--bind", "127.0.0.1:5001", "app:application"]
+# Change this to bind to all interfaces (0.0.0.0)
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "app:application"]
