@@ -4,7 +4,8 @@ from flask_cors import CORS
 def create_app():
     # Create a new Flask app instance inside the function
     app = Flask(__name__)
-    CORS(app, resources={r"/*": {"origins": "*"}})
+    # Allow requests from any origin with credentials
+    CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
     
     # Import and register blueprints
     from .routes import bp
