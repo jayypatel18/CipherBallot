@@ -1,17 +1,20 @@
+# Use an official Node.js runtime as a parent image
 FROM node:23
 
+# Set the working directory in the container
 WORKDIR /app
 
+# Copy package.json and package-lock.json first to install dependencies
 COPY package*.json ./
+
+# Install the dependencies
 RUN npm install
 
+# Copy the rest of your app's source code
 COPY . .
 
-# Use ARG to accept build-time variables
-ARG VITE_URL=http://host.docker.internal:5001
-ENV VITE_URL=${VITE_URL}
-
+# Expose the port that React will run on
 EXPOSE 3000
 
-# Use exec form of CMD and ensure host is set to 0.0.0.0
-CMD ["npm", "run", "start", "--", "--host", "0.0.0.0"]
+# Start the React app in development mode, listening on all interfaces (0.0.0.0)
+CMD ["npm", "start", "--", "--host", "0.0.0.0"]

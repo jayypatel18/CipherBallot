@@ -7,12 +7,14 @@ services:
       - "3000:3000"
     environment:
       - VITE_URL=http://host.docker.internal:5001
-    networks:
-      - cipherballot-network
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
       - server
+    # Add development volume for hot reloading
+    volumes:
+      - ./client:/app
+      - /app/node_modules
 
   server:
     build: ./server
