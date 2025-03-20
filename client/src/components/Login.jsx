@@ -1,7 +1,7 @@
 // src/components/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_URL;
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -10,7 +10,7 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://127.0.0.1:5001/login`, {
+      const response = await axios.post(`${apiUrl}/login`, {
         username,
         password,
       });

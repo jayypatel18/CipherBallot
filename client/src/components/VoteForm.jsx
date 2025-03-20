@@ -1,7 +1,7 @@
 // src/components/VoteForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_URL;
 
 const VoteForm = ({ user, onVote, setError }) => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -11,7 +11,7 @@ const VoteForm = ({ user, onVote, setError }) => {
     e.preventDefault();
     setSubmissionError(''); // Clear any previous error
     try {
-      const response = await axios.post(`http://127.0.0.1:5001/vote`, {
+      const response = await axios.post(`${apiUrl}/vote`, {
         user_id: user.user_id,
         option: selectedOption,  // Send the selected option
       });
