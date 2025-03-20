@@ -26,7 +26,6 @@ const Dashboard = () => {
   const [result, setResult] = useState(null);
   const [voteStats, setVoteStats] = useState([]);
   const [error, setError] = useState('');
-
   // Fetch aggregated results
   const fetchResult = async () => {
     try {

@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const DataForm = ({ onSubmit }) => {
   const [inputValue, setInputValue] = useState('');
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
