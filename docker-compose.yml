@@ -1,31 +1,29 @@
-version: '3.8'
+version: '3'
 
 services:
+  # React client service
   client:
-    build: ./client
+    build:
+      context: ./client  # Set the build context to the current directory
+      dockerfile: Dockerfile  # Specify the Dockerfile for the React app
     ports:
-      - "3000:3000"
-    environment:
-      - VITE_URL=http://host.docker.internal:5001
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
-      - server
-    # Add development volume for hot reloading
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-
-  server:
-    build: ./server
-    ports:
-      - "5001:5001"
-    environment:
-      - FLASK_APP=app.py
-      - FLASK_RUN_HOST=0.0.0.0
+      - "3000:3000"  # Expose React app on port 3000
     networks:
-      - cipherballot-network
+      - app_network
+
+  # Flask server service
+  server:
+    build:
+      context: ./server  # Set the build context to the current directory
+      dockerfile: Dockerfile  # Specify the Dockerfile for the Flask server
+    ports:
+      - "5001:5001"  # Expose Flask app on port 5001
+    networks:
+      - app_network
+    environment:
+      - FLASK_APP=app.py  # Set environment variable for Flask app
+      - FLASK_RUN_HOST=0.0.0.0  # Ensure Flask listens on all interfaces
 
 networks:
-  cipherballot-network:
+  app_network:
     driver: bridge
