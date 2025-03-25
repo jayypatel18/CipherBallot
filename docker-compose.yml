@@ -7,9 +7,10 @@ services:
       context: ./client  # Set the build context to the current directory
       dockerfile: Dockerfile  # Specify the Dockerfile for the React app
       args:
-        - API_URL=${API_URL:-http://localhost:5001}
+        - API_URL: ${API_URL}
     ports:
       - "3000:3000"  # Expose React app on port 3000
+    restart: always
     networks:
       - app_network
 
@@ -20,6 +21,9 @@ services:
       dockerfile: Dockerfile  # Specify the Dockerfile for the Flask server
     ports:
       - "5001:5001"  # Expose Flask app on port 5001
+    volumes:
+      - db_data:/data
+    restart: always
     networks:
       - app_network
     environment:
@@ -29,3 +33,6 @@ services:
 networks:
   app_network:
     driver: bridge
+    
+volumes:
+  db_data:

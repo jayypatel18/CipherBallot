@@ -12,7 +12,7 @@ const AuthForm = ({ onLogin, onClose }) => {
     e.preventDefault();
     const endpoint = isRegistering ? '/register' : '/login';
     try {
-      const response = await axios.post(`http://127.0.0.1:5001${endpoint}`, {
+      const response = await axios.post(`${import.meta.env.VITE_URL}${endpoint}`, {
         username,
         password,
       });
