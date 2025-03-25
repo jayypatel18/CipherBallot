@@ -1,6 +1,7 @@
 // src/components/AuthForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+const apiUrl = import.meta.env.VITE_URL;
 
 const AuthForm = ({ onLogin, onClose }) => {
   const [username, setUsername] = useState('');
@@ -12,7 +13,7 @@ const AuthForm = ({ onLogin, onClose }) => {
     e.preventDefault();
     const endpoint = isRegistering ? '/register' : '/login';
     try {
-      const response = await axios.post(`http://127.0.0.1:5001${endpoint}`, {
+      const response = await axios.post(`${apiUrl}${endpoint}`, {
         username,
         password,
       });
