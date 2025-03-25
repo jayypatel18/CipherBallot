@@ -7,7 +7,7 @@ services:
       context: ./client  # Set the build context to the current directory
       dockerfile: Dockerfile  # Specify the Dockerfile for the React app
       args:
-        - API_URL=${http://18.206.123.190:5001:-http://localhost:5001}
+        - API_URL=${http://54.161.56.106:5001:-http://localhost:5001}
     ports:
       - "3000:3000"  # Expose React app on port 3000
     networks:
