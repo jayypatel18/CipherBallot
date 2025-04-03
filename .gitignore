@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+DP_IA_Report.docx
 
 .env
 mykey.pem
